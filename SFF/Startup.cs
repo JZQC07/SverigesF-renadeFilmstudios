@@ -29,6 +29,9 @@ namespace SFF
         {
             services.AddDbContext<MovieContext>(opt => opt.UseSqlite("Data Source=myDatabase.db"));
             services.AddControllers();
+
+            services.AddDbContext<MyDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MyDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

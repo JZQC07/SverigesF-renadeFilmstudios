@@ -11,7 +11,7 @@ namespace SFF.Models
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public int MovieId { get; set; }
 
         public int MovieStudioId { get; set; }
 
