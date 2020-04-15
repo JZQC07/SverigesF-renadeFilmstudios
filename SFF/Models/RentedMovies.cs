@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace SFF.Movie
+namespace SFF.Models
 {
-    public class MovieStudio
+    public class RentedMovies
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string City { get; set; }
+
+        public string Title { get; set; }
+
+        public int MovieStudioId { get; set; }
 
     }
 }

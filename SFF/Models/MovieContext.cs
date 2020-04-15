@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
-namespace MovieAPI.Models
+namespace SFF.Models
 {
     public class MovieContext : DbContext
     {
