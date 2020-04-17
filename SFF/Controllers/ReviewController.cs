@@ -11,48 +11,48 @@ namespace SFF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class ReviewController : ControllerBase
     {
         private readonly GlobalDbContext _context;
 
-        public MovieController(GlobalDbContext context)
+        public ReviewController(GlobalDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Movie
+        // GET: api/Review
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<Review>>> GetReview()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Review.ToListAsync();
         }
 
-        // GET: api/Movie/5
+        // GET: api/Review/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<Review>> GetReview(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var review = await _context.Review.FindAsync(id);
 
-            if (movie == null)
+            if (review == null)
             {
                 return NotFound();
             }
 
-            return movie;
+            return review;
         }
 
-        // PUT: api/Movie/5
+        // PUT: api/Review/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, Movie movie)
+        public async Task<IActionResult> PutReview(int id, Review review)
         {
-            if (id != movie.Id)
+            if (id != review.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(movie).State = EntityState.Modified;
+            _context.Entry(review).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace SFF.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(id))
+                if (!ReviewExists(id))
                 {
                     return NotFound();
                 }
@@ -73,21 +73,37 @@ namespace SFF.Controllers
             return NoContent();
         }
 
-        // POST: api/Movie
+        // POST: api/Review
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<Review>> PostReview(Review review)
         {
-            _context.Movies.Add(movie);
+            _context.Review.Add(review);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction("GetReview", new { id = review.Id }, review);
         }
 
-        private bool MovieExists(int id)
+        // DELETE: api/Review/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Review>> DeleteReview(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            var review = await _context.Review.FindAsync(id);
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            _context.Review.Remove(review);
+            await _context.SaveChangesAsync();
+
+            return review;
+        }
+
+        private bool ReviewExists(int id)
+        {
+            return _context.Review.Any(e => e.Id == id);
         }
     }
 }

@@ -7,17 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace SFF.Models
 {
-    public class RentedMovies
+    public class Label
     {
         public int Id { get; set; }
-
+        public DateTime DateRented { get; set; }
+        public string City { get; set; }
         public int MovieId { get; set; }
-
         public Movie Movie { get; set; }
-
-        public int MovieStudioId { get; set; }
-
-        public MovieStudio MovieStudio { get; set; }
-
     }
+    //XML 
 }

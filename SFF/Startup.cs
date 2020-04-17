@@ -21,17 +21,13 @@ namespace SFF
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MovieContext>(opt => opt.UseSqlite("Data Source=myDatabase.db"));
+            services.AddDbContext<GlobalDbContext>(opt => opt.UseSqlite("Data Source=myDatabase.db"));
             services.AddControllers();
-
-            services.AddDbContext<MyDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MyDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

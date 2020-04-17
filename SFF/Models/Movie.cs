@@ -17,7 +17,10 @@ namespace SFF.Models
 
         public int MaxAmount { get; set; }
 
+        public bool isLent { get; set; } = false;
+
         public int MovieStudioId { get; set; }
 
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

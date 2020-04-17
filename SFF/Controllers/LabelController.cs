@@ -11,48 +11,48 @@ namespace SFF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class LabelController : ControllerBase
     {
         private readonly GlobalDbContext _context;
 
-        public MovieController(GlobalDbContext context)
+        public LabelController(GlobalDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Movie
+        // GET: api/Label
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<Label>>> GetLabel()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Label.ToListAsync();
         }
 
-        // GET: api/Movie/5
+        // GET: api/Label/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<Label>> GetLabel(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var label = await _context.Label.FindAsync(id);
 
-            if (movie == null)
+            if (label == null)
             {
                 return NotFound();
             }
 
-            return movie;
+            return label;
         }
 
-        // PUT: api/Movie/5
+        // PUT: api/Label/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, Movie movie)
+        public async Task<IActionResult> PutLabel(int id, Label label)
         {
-            if (id != movie.Id)
+            if (id != label.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(movie).State = EntityState.Modified;
+            _context.Entry(label).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace SFF.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(id))
+                if (!LabelExists(id))
                 {
                     return NotFound();
                 }
@@ -73,21 +73,37 @@ namespace SFF.Controllers
             return NoContent();
         }
 
-        // POST: api/Movie
+        // POST: api/Label
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<Label>> PostLabel(Label label)
         {
-            _context.Movies.Add(movie);
+            _context.Label.Add(label);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction("GetLabel", new { id = label.Id }, label);
         }
 
-        private bool MovieExists(int id)
+        // DELETE: api/Label/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Label>> DeleteLabel(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            var label = await _context.Label.FindAsync(id);
+            if (label == null)
+            {
+                return NotFound();
+            }
+
+            _context.Label.Remove(label);
+            await _context.SaveChangesAsync();
+
+            return label;
+        }
+
+        private bool LabelExists(int id)
+        {
+            return _context.Label.Any(e => e.Id == id);
         }
     }
 }
