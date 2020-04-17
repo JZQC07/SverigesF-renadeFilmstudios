@@ -80,26 +80,5 @@ namespace SFF.Controllers
 
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
-
-        // DELETE: api/Movie/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Movie>> DeleteMovie(int id)
-        {
-            var movie = await _context.Movie.FindAsync(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            _context.Movie.Remove(movie);
-            await _context.SaveChangesAsync();
-
-            return movie;
-        }
-
-        private bool MovieExists(int id)
-        {
-            return _context.Movie.Any(e => e.Id == id);
-        }
     }
 }
