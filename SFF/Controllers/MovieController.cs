@@ -28,8 +28,7 @@ namespace SFF.Controllers
         }
 
         // PUT: Change amount of movies a studio can rent
-        [HttpPut("changerentquote")] //<----
-        // Byta gärna namn på denna metoden bre <--------
+        [HttpPut("changemaxrentamount")]
         public async Task<ActionResult<Movie>> ChangeRentQuote(int id, Movie movie)
         {
             var movieToChange = await _context.Movies.FindAsync(id);
@@ -134,7 +133,7 @@ namespace SFF.Controllers
 
         // POST: api/Movie
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // Add a movie
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {

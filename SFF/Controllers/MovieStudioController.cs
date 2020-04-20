@@ -75,7 +75,7 @@ namespace SFF.Controllers
 
         // POST: api/MovieStudio
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // Create and add a studio
         [HttpPost]
         public async Task<ActionResult<MovieStudio>> PostMovieStudio(MovieStudio movieStudio)
         {
