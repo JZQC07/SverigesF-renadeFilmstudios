@@ -8,19 +8,24 @@ namespace SFF.Models
         {
 
         }
+
         public GlobalDbContext()
         {
+        }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=myDatabase.db");
         }
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<SFF.Models.MovieStudio> MovieStudio { get; set; }
+        public DbSet<MovieStudio> MovieStudio { get; set; }
 
-        public DbSet<SFF.Models.Review> Review { get; set; }
+        public DbSet<Review> Review { get; set; }
 
-        public DbSet<SFF.Models.Label> Label { get; set; }
+        public DbSet<Label> Label { get; set; }
 
-        public DbSet<SFF.Models.RentedMovies> RentedMovies { get; set; }
+        public DbSet<RentedMovies> RentedMovies { get; set; }
     }
 }

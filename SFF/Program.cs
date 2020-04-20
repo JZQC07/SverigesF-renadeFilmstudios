@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Sqlite;
+using SFF.Models;
 
 namespace SFF
 {
@@ -13,6 +15,12 @@ namespace SFF
     {
         public static void Main(string[] args)
         {
+            using (var db = new GlobalDbContext())
+            {
+                db.Add(new Movie { Title = "Some movie", Genre = "SomeGenre", MaxAmount = 4 });
+                db.Add(new MovieStudio { Name = "Some Studio", City = "Some City Idk" });
+                db.SaveChanges();
+            }
             CreateHostBuilder(args).Build().Run();
         }
 

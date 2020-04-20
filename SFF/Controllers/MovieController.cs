@@ -27,6 +27,36 @@ namespace SFF.Controllers
             return await _context.Movies.ToListAsync();
         }
 
+        // PUT: Change amount of movies a studio can rent
+        [HttpPut("changerentquote")] //<----
+        // Byta gärna namn på denna metoden bre <--------
+        public async Task<ActionResult<Movie>> ChangeRentQuote(int id, Movie movie)
+        {
+            var movieToChange = await _context.Movies.FindAsync(id);
+            Console.WriteLine("Something goes here");
+            movieToChange.MaxAmount = movie.MaxAmount;
+            if (movieToChange.MaxAmount > 20)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MovieExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return movieToChange;
+        }
+
         // GET: api/Movie/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id)
@@ -46,6 +76,35 @@ namespace SFF.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(int id, Movie movie)
+        {
+            if (id != movie.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(movie).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MovieExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("change/{id}")]
+        public async Task<IActionResult> ChangeAmount(int id, Movie movie)
         {
             if (id != movie.Id)
             {
