@@ -27,14 +27,28 @@ namespace SFF.Controllers
             return await _context.Movies.ToListAsync();
         }
 
+        // GET: api/Movie/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Movie>> GetMovie(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return movie;
+        }
+
         // PUT: Change amount of movies a studio can rent
         [HttpPut("changemaxrentamount")]
         public async Task<ActionResult<Movie>> ChangeRentQuote(int id, Movie movie)
         {
             var movieToChange = await _context.Movies.FindAsync(id);
-            Console.WriteLine("Something goes here");
+            Console.WriteLine("xyz");
             movieToChange.MaxAmount = movie.MaxAmount;
-            if (movieToChange.MaxAmount > 20)
+            if (movieToChange.MaxAmount > 10)
             {
                 return BadRequest();
             }
@@ -56,19 +70,7 @@ namespace SFF.Controllers
             return movieToChange;
         }
 
-        // GET: api/Movie/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
-        {
-            var movie = await _context.Movies.FindAsync(id);
 
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return movie;
-        }
 
         // PUT: api/Movie/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -140,7 +142,7 @@ namespace SFF.Controllers
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
         }
 
         private bool MovieExists(int id)

@@ -17,8 +17,8 @@ namespace SFF
         {
             using (var db = new GlobalDbContext())
             {
-                db.Add(new Movie { Title = "Some movie", Genre = "SomeGenre", MaxAmount = 4 });
-                db.Add(new MovieStudio { Name = "Some Studio", City = "Some City Idk" });
+                db.Add(new Movie { Title = "SomeMovie", Genre = "SomeGenre", MaxAmount = 4 });
+                db.Add(new MovieStudio { Name = "Some Random Studio", City = "Ulricehamn" });
                 db.SaveChanges();
             }
             CreateHostBuilder(args).Build().Run();
