@@ -42,7 +42,7 @@ namespace SFF.Controllers
         }
 
         // PUT: Change amount of movies a studio can rent
-        [HttpPut("changemaxrentamount")]
+        [HttpPut("ChangeMaxRentAmount/{id}")]
         public async Task<ActionResult<Movie>> ChangeRentQuote(int id, Movie movie)
         {
             var movieToChange = await _context.Movies.FindAsync(id);

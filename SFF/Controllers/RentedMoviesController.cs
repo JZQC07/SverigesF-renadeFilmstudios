@@ -85,6 +85,26 @@ namespace SFF.Controllers
             return CreatedAtAction("GetRentedMovies", new { id = rentedMovies.Id }, rentedMovies);
         }
 
+        [HttpPost("AddRentedMovie/{movieStudioId}/{movieId}")]
+        public async Task<ActionResult<RentedMovies>> PostMovieToStudio(int studioId, int movieId)
+        {
+            var movieStudio = await _context.MovieStudio.Where(m => m.Id == studioId).FirstOrDefaultAsync();
+
+            if (movieStudio != null)
+            {
+                var movie = await _context.Movies.Where(m => m.Id == movieId).FirstOrDefaultAsync();
+
+                movieStudio.AddRentedMovie(movie);
+
+                await _context.SaveChangesAsync();
+
+                return StatusCode(201);
+            }
+            return StatusCode(400);
+
+        }
+
+
         // DELETE: api/RentedMovies/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<RentedMovies>> DeleteRentedMovies(int id)
