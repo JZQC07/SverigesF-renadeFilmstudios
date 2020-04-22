@@ -103,8 +103,6 @@ namespace SFF.Controllers
             return StatusCode(400);
 
         }
-
-
         // DELETE: api/RentedMovies/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<RentedMovies>> DeleteRentedMovies(int id)

@@ -130,6 +130,26 @@ namespace SFF.Controllers
 
         }
 
+        [HttpDelete("RemoveMovie/{studioId}/{movieId}")]
+        public async Task<ActionResult<Movie>> RemoveMovieFromStudio(int studioId, int movieId)
+        {
+            var movieStudio = await _context.MovieStudio.Where(m => m.Id == studioId)
+                                                             .Include(a => a.RentedMovies)
+                                                             .ThenInclude(a => a.Movie)
+                                                             .FirstOrDefaultAsync();
+
+            if (movieStudio == null)
+            {
+                return NotFound();
+            }
+
+            var RentedMovie = movieStudio.ReturnMovie(movieId);
+
+            _context.RentedMovies.Remove(RentedMovie);
+            await _context.SaveChangesAsync();
+
+            return StatusCode(201);
+        }
 
 
         // DELETE: api/MovieStudio/5

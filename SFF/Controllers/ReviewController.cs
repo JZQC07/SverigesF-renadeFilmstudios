@@ -102,23 +102,6 @@ namespace SFF.Controllers
             }
             return StatusCode(400);
         }
-
-        // DELETE: api/Review/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Review>> DeleteReview(int id)
-        {
-            var review = await _context.Review.FindAsync(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            _context.Review.Remove(review);
-            await _context.SaveChangesAsync();
-
-            return review;
-        }
-
         private bool ReviewExists(int id)
         {
             return _context.Review.Any(e => e.Id == id);
