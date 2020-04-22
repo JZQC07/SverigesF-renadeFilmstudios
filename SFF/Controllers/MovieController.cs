@@ -46,7 +46,7 @@ namespace SFF.Controllers
         public async Task<ActionResult<Movie>> ChangeRentQuote(int id, Movie movie)
         {
             var movieToChange = await _context.Movies.FindAsync(id);
-            Console.WriteLine("xyz");
+            Console.WriteLine("Insert chosen string here.");
             movieToChange.MaxAmount = movie.MaxAmount;
             if (movieToChange.MaxAmount > 10)
             {

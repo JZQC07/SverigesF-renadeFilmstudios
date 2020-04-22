@@ -13,6 +13,8 @@ namespace SFF.Models
 
         //public decimal Duration { get; set; }
 
+        public int AmountOfMovies { get; set; }
+
         public int MaxAmount { get; set; }
 
         public bool isLent { get; set; } = false;
@@ -20,5 +22,12 @@ namespace SFF.Models
         public int MovieStudioId { get; set; }
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+        public void AddReview(Review review, MovieStudio movieStudio)
+        {
+            review.MovieStudio = movieStudio;
+            Reviews.Add(review);
+        }
+
     }
 }

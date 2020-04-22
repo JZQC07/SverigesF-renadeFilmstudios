@@ -41,6 +41,32 @@ namespace SFF.Controllers
             return movieStudio;
         }
 
+        [HttpGet("{id}/Movies")]
+        public async Task<ActionResult<IEnumerable<String>>> GetMovies(int id)
+        {
+            var movieStudioModel = await _context.MovieStudio.Where(m => m.Id == id)
+                                                              .Include(a => a.RentedMovies)
+                                                              .ThenInclude(a => a.Movie)
+                                                              .ToListAsync();
+
+            if (movieStudioModel.FirstOrDefault() == null)
+            {
+                return NotFound();
+            }
+            var rentedMovies = movieStudioModel.FirstOrDefault().RentedMovies.ToList();
+
+            var movies = rentedMovies.Select(m => m.Movie).ToList();
+
+            List<string> movieTitles = new List<string>();
+            foreach (var m in movies)
+            {
+                movieTitles.Add(m.Title);
+            }
+            return movieTitles;
+        }
+
+
+
         // PUT: api/MovieStudio/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -84,6 +110,27 @@ namespace SFF.Controllers
 
             return CreatedAtAction("GetMovieStudio", new { id = movieStudio.Id }, movieStudio);
         }
+
+        [HttpPost("AddMovieToStudio/{studioId}/{movieId}")]
+        public async Task<ActionResult<Movie>> PostMovieToStudio(int studioId, int movieId)
+        {
+            var movieStudio = await _context.MovieStudio.Where(m => m.Id == studioId).FirstOrDefaultAsync();
+
+            if (movieStudio != null)
+            {
+                var movie = await _context.Movies.Where(m => m.Id == movieId).FirstOrDefaultAsync();
+
+                movieStudio.AddRentedMovie(movie);
+
+                await _context.SaveChangesAsync();
+
+                return StatusCode(201);
+            }
+            return StatusCode(400);
+
+        }
+
+
 
         // DELETE: api/MovieStudio/5
         [HttpDelete("{id}")]

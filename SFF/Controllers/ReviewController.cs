@@ -85,6 +85,24 @@ namespace SFF.Controllers
             return CreatedAtAction("GetReview", new { id = review.Id }, review);
         }
 
+        [HttpPost("PostReview/{movieId}/{studioId}")]
+        public async Task<ActionResult<Review>> PostMovieTrivia(int movieId, int studioId, Review review)
+        {
+            var movie = await _context.Movies.Where(m => m.Id == movieId).FirstOrDefaultAsync();
+            var movieStudio = await _context.MovieStudio.Where(m => m.Id == studioId).FirstOrDefaultAsync();
+            if (movie != null && movieStudio != null)
+            {
+                if (review.CorrectRating(review))
+                {
+                    return StatusCode(400);
+                }
+                movie.AddReview(review, movieStudio);
+                await _context.SaveChangesAsync();
+                return StatusCode(201);
+            }
+            return StatusCode(400);
+        }
+
         // DELETE: api/Review/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Review>> DeleteReview(int id)

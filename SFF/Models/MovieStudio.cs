@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections.Generic;
 namespace SFF.Models
 {
@@ -11,14 +13,27 @@ namespace SFF.Models
         public ICollection<RentedMovies> RentedMovies { get; set; } = new List<RentedMovies>();
         public void AddRentedMovie(Movie movies)
         {
-            if (movies.MaxAmount > 0)
+            if (movies.AmountOfMovies > 0)
             {
-                movies.MaxAmount--;
+                movies.AmountOfMovies--;
             }
 
             var rentedMovie = new RentedMovies { Movie = movies };
 
             RentedMovies.Add(rentedMovie);
+        }
+
+        public RentedMovies ReturnMovie(int id)
+        {
+            var rentedMovie = RentedMovies.Where(m => m.MovieId == id).FirstOrDefault();
+            var movie = RentedMovies.Select(m => m.Movie).Where(m => m.Id == id).FirstOrDefault();
+
+            if (rentedMovie != null)
+            {
+                RentedMovies.Remove(rentedMovie);
+                movie.AmountOfMovies++;
+            }
+            return rentedMovie;
         }
 
     }

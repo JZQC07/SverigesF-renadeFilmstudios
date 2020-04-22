@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace SFF.Models
 {
@@ -32,5 +26,26 @@ namespace SFF.Models
                 return false;
             }
         }
+
+        public Review(MovieStudio movieStudio, Movie movie)
+        {
+            this.MovieStudio = movieStudio;
+            this.Movie = movie;
+        }
+
+        public Review(MovieStudio movieStudio, Movie movie, string ReviewComment) : this(movieStudio, movie)
+        {
+            this.ReviewComment = ReviewComment;
+        }
+        public Review(MovieStudio movieStudio, Movie movie, int Rating) : this(movieStudio, movie)
+        {
+            this.Rating = Rating;
+        }
+        public Review(MovieStudio movieStudio, Movie movie, string ReviewComment, int Rating) : this(movieStudio, movie)
+        {
+            this.ReviewComment = ReviewComment;
+            this.Rating = Rating;
+        }
+
     }
 }
